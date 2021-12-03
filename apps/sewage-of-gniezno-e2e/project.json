@@ -1,0 +1,28 @@
+{
+  "root": "apps/sewage-of-gniezno-e2e",
+  "sourceRoot": "apps/sewage-of-gniezno-e2e/src",
+  "projectType": "application",
+  "targets": {
+    "e2e": {
+      "executor": "@nrwl/cypress:cypress",
+      "options": {
+        "cypressConfig": "apps/sewage-of-gniezno-e2e/cypress.json",
+        "devServerTarget": "sewage-of-gniezno:serve"
+      },
+      "configurations": {
+        "production": {
+          "devServerTarget": "sewage-of-gniezno:serve:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/sewage-of-gniezno-e2e/**/*.{js,ts}"]
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["sewage-of-gniezno"]
+}

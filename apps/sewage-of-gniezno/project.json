@@ -1,0 +1,72 @@
+{
+  "root": "apps/sewage-of-gniezno",
+  "sourceRoot": "apps/sewage-of-gniezno/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/web:build",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "outputPath": "dist/apps/sewage-of-gniezno",
+        "index": "apps/sewage-of-gniezno/src/index.html",
+        "baseHref": "/",
+        "main": "apps/sewage-of-gniezno/src/main.tsx",
+        "polyfills": "apps/sewage-of-gniezno/src/polyfills.ts",
+        "tsConfig": "apps/sewage-of-gniezno/tsconfig.app.json",
+        "assets": [
+          "apps/sewage-of-gniezno/src/favicon.ico",
+          "apps/sewage-of-gniezno/src/assets"
+        ],
+        "styles": [],
+        "scripts": [],
+        "webpackConfig": "@nrwl/react/plugins/webpack"
+      },
+      "configurations": {
+        "production": {
+          "fileReplacements": [
+            {
+              "replace": "apps/sewage-of-gniezno/src/environments/environment.ts",
+              "with": "apps/sewage-of-gniezno/src/environments/environment.prod.ts"
+            }
+          ],
+          "optimization": true,
+          "outputHashing": "all",
+          "sourceMap": false,
+          "namedChunks": false,
+          "extractLicenses": true,
+          "vendorChunk": false
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/web:dev-server",
+      "options": {
+        "buildTarget": "sewage-of-gniezno:build",
+        "hmr": true
+      },
+      "configurations": {
+        "production": {
+          "buildTarget": "sewage-of-gniezno:build:production",
+          "hmr": false
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/sewage-of-gniezno/**/*.{ts,tsx,js,jsx}"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/apps/sewage-of-gniezno"],
+      "options": {
+        "jestConfig": "apps/sewage-of-gniezno/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}

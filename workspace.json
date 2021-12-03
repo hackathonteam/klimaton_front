@@ -1,0 +1,7 @@
+{
+  "version": 2,
+  "projects": {
+    "sewage-of-gniezno": "apps/sewage-of-gniezno",
+    "sewage-of-gniezno-e2e": "apps/sewage-of-gniezno-e2e"
+  }
+}
