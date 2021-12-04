@@ -8,7 +8,7 @@ const StyledMap = styled(MapContainer)`
 `;
 
 const StyledMarked = styled(Marker)`
-  
+
 `;
 
 const position: LatLngTuple = [52.53481, 17.58259];
@@ -24,8 +24,8 @@ const Map = ({ locations }: Props) => {
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      {locations?.data?.data ? (
-        locations.data.data.map(
+      {locations?.data ? (
+        locations.data.map(
           ({
             latitude,
             longtitude,

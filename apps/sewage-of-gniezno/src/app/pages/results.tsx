@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
+import { useQuery } from 'react-query';
 import styled from 'styled-components';
 import fetchLocation from '../actions/fetch_location';
 import Map from './components/map';
 import ProgressBar from './components/progress_bar';
+import getGraph from '../actions/get_graph';
 
 const Layout = styled.div`
   display: flex;
@@ -20,13 +22,16 @@ const ResultsPage = () => {
     (async () => setLocations(await fetchLocation()))();
   }, []);
 
-  console.log(locations);
+  const { data } = useQuery('get-graph', () =>
+    getGraph(locations ? locations[0].name : 'Roosevelta%20139', 'graph_name')
+  );
 
   return (
     <Layout>
       <Map locations={locations} />
       <Flex>
         <ProgressBar value={60} />
+        {data}
       </Flex>
     </Layout>
   );
