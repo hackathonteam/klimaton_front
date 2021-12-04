@@ -5,8 +5,12 @@ import Map from './components/map';
 import ProgressBar from './components/progress_bar';
 
 const Layout = styled.div`
-display: flex;
+  display: flex;
   height: 100%;
+`;
+
+const Flex = styled.div`
+  width: 50%;
 `;
 
 const ResultsPage = () => {
@@ -21,7 +25,9 @@ const ResultsPage = () => {
   return (
     <Layout>
       <Map locations={locations} />
-      <ProgressBar value={60} />
+      <Flex>
+        <ProgressBar value={60} />
+      </Flex>
     </Layout>
   );
 };

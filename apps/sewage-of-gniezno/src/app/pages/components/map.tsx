@@ -7,6 +7,10 @@ const StyledMap = styled(MapContainer)`
   width: 50%;
 `;
 
+const StyledMarked = styled(Marker)`
+  
+`;
+
 const position: LatLngTuple = [52.53481, 17.58259];
 
 type Props = {
