@@ -1,9 +1,11 @@
 import axios from 'axios';
 
-const fetchGraph = (id: string, graphName: string) => {
-  return axios.get(
+const fetchGraph = async (id: string, graphName: string) => {
+  const response = await axios.get(
     `http://localhost:8000/containers/graphs/${id}/${graphName}`
   );
+
+  return response.data;
 };
 
 export default fetchGraph;

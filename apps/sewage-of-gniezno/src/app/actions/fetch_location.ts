@@ -1,7 +1,9 @@
 import axios from 'axios';
 
-const fetchLocation = () => {
-  return axios.get('http://localhost:8000/location');
+const fetchLocation = async () => {
+  const response = await axios.get('http://localhost:8000/location');
+
+  return response.data;
 };
 
 export default fetchLocation;

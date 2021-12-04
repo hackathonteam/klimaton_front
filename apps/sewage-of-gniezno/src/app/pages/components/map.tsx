@@ -7,25 +7,24 @@ const StyledMap = styled(MapContainer)`
   width: 50%;
 `;
 
-const StyledMarked = styled(Marker)`
-
-`;
+const StyledMarked = styled(Marker)``;
 
 const position: LatLngTuple = [52.53481, 17.58259];
 
 type Props = {
+  setSelectedLocation: (location: any) => void;
   locations?: any; // TEMP
 };
 
-const Map = ({ locations }: Props) => {
+const Map = ({ setSelectedLocation, locations }: Props) => {
   return (
     <StyledMap center={position} zoom={13}>
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      {locations?.data ? (
-        locations.data.map(
+      {locations ? (
+        locations.map(
           ({
             latitude,
             longtitude,
@@ -38,13 +37,20 @@ const Map = ({ locations }: Props) => {
             <Marker
               key={`${latitude}-${longtitude}`}
               position={[latitude, longtitude]}
+              eventHandlers={{
+                click: () =>
+                  setSelectedLocation({ name, latitude, longtitude }),
+              }}
             >
               <Popup>{name}</Popup>
             </Marker>
           )
         )
       ) : (
-        <Marker position={position}>
+        <Marker
+          position={position}
+          eventHandlers={{ click: () => console.log('Clicked') }}
+        >
           <Popup>
             A pretty CSS3 popup. <br /> Easily customizable.
           </Popup>
