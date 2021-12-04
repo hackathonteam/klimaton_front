@@ -6,6 +6,9 @@ import Map from './components/map';
 import ProgressBar from './components/progress_bar';
 import getGraph from '../actions/get_graph';
 import HBar from './components/hbar';
+import Navbar from './components/navbar_vert';
+import { useLocation } from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify';
 
 const Layout = styled.div`
   display: flex;
@@ -22,8 +25,15 @@ const Title = styled.h1`
 `;
 
 const ResultsPage = () => {
+  const { state } = useLocation();
+
   const [locations, setLocations] = useState<any>(null);
-  const [selectedLocation, setSelectedLocation] = useState<any>(null);
+  const [selectedLocation, setSelectedLocation] =
+    useState<{ name: string; longtitute: number; latitude: number } | null>(null);
+
+  useEffect(() => {
+    if (state?.imported) toast.success('Pomyślnie zaimportowano plik(i)');
+  }, [state]);
 
   useEffect(() => {
     (async () => setLocations(await fetchLocation()))();
@@ -39,14 +49,22 @@ const ResultsPage = () => {
   console.log(data);
 
   return (
-    <Layout>
-      <Map locations={locations} setSelectedLocation={setSelectedLocation} />
-      <Flex>
-        <Title>{selectedLocation ? `ul. ${selectedLocation.name}, Gniezno` : 'ul. Roosevelta 131a, Gniezno'}</Title>
-        <ProgressBar value={60} />
-        {data && <HBar data={data} />}
-      </Flex>
-    </Layout>
+    <>
+      <Layout>
+        <Navbar />
+        <Map locations={locations} setSelectedLocation={setSelectedLocation} />
+        <Flex>
+          <Title>
+            {selectedLocation
+              ? `ul. ${selectedLocation.name}, Gniezno`
+              : 'ul. Roosevelta 131a, Gniezno'}
+          </Title>
+          <ProgressBar value={60} />
+          {data && <HBar data={data} />}
+        </Flex>
+      </Layout>
+      <ToastContainer />
+    </>
   );
 };
 

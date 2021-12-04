@@ -4,7 +4,7 @@ import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
 
 const StyledMap = styled(MapContainer)`
   height: 100%;
-  width: 50%;
+  width: calc(50% - 100px);
 `;
 
 const StyledMarked = styled(Marker)``;

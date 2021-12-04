@@ -5,18 +5,27 @@ import BigDropzone from './components/big_dropzone';
 import { ArrowForward } from '@mui/icons-material';
 import { toast } from 'react-toastify';
 import { useMutation } from 'react-query';
-import { useNavigate } from 'react-router';
+import { NavigateOptions, useNavigate } from 'react-router-dom';
+import Navbar from './components/navbar_vert';
 
 const Layout = styled.div`
+  display: grid;
+  grid-template-columns: auto 1fr;
+  height: 100%;
+`;
+
+const ContentLayout = styled.div`
   display: flex;
   justify-content: space-around;
   flex-direction: column;
   height: 100%;
+  background-color: #6377c6;
   background-image: url('../../../assets/background.jpg');
   transform: scaleX(-1);
   > * {
     transform: scaleX(-1);
   }
+  transition: background-image 200ms;
 `;
 
 const SpaceAround = styled.div`
@@ -107,57 +116,85 @@ const Upload = () => {
         residents,
       }),
     {
-      onSuccess: () => navigate('/results'),
+      onSuccess: () =>
+        navigate('/results', { state: { imported: true } } as NavigateOptions),
       onError: () => {
         toast.error('Wystąpił błąd');
       },
     }
   );
 
+  const areFilesSelected = [
+    declaredSewage,
+    realSewage,
+    waterConsumption,
+    sewageReception,
+    companies,
+    containers,
+    meters,
+    residents,
+  ].some((value) => value);
+
   return (
     <Layout>
-      <SpaceAround>
-        <BigFileUploader>
-          <Subheading>Zadeklarowane Ścieki</Subheading>
-          <BigDropzone file={declaredSewage} setFile={setDeclaredSewage} />
-        </BigFileUploader>
-        <BigFileUploader>
-          <Subheading>Rzeczywiste Ścieki</Subheading>
-          <BigDropzone file={realSewage} setFile={setRealSewage} />
-        </BigFileUploader>
-      </SpaceAround>
-      <SpaceAround>
-        <BigFileUploader>
-          <Subheading>Zużycie wody</Subheading>
-          <BigDropzone file={waterConsumption} setFile={setWaterConsumption} />
-        </BigFileUploader>
-        <BigFileUploader>
-          <Subheading>Odbiór ścieków</Subheading>
-          <BigDropzone file={sewageReception} setFile={setSewageReception} />
-        </BigFileUploader>
-      </SpaceAround>
-      <SpaceAround>
-        <SmallFileUploader>
-          <Subheading>Firmy ascenizacyjne</Subheading>
-          <BigDropzone file={companies} setFile={setCompanies} />
-        </SmallFileUploader>
-        <SmallFileUploader>
-          <Subheading>Zbiorniki</Subheading>
-          <BigDropzone file={containers} setFile={setContainers} />
-        </SmallFileUploader>
-        <SmallFileUploader>
-          <Subheading>Liczniki</Subheading>
-          <BigDropzone file={meters} setFile={setMeters} />
-        </SmallFileUploader>
-        <SmallFileUploader>
-          <Subheading>Osoby zamieszkałe</Subheading>
-          <BigDropzone file={residents} setFile={setResidents} />
-        </SmallFileUploader>
-      </SpaceAround>
-      <Button onClick={() => upload()}>
-        <span>Zaimportuj dane</span>
-        <ButtonArrow />
-      </Button>
+      <Navbar />
+      <ContentLayout>
+        <SpaceAround>
+          <BigFileUploader>
+            <Subheading>Zadeklarowane Ścieki</Subheading>
+            <BigDropzone file={declaredSewage} setFile={setDeclaredSewage} />
+          </BigFileUploader>
+          <BigFileUploader>
+            <Subheading>Rzeczywiste Ścieki</Subheading>
+            <BigDropzone file={realSewage} setFile={setRealSewage} />
+          </BigFileUploader>
+        </SpaceAround>
+        <SpaceAround>
+          <BigFileUploader>
+            <Subheading>Zużycie wody</Subheading>
+            <BigDropzone
+              file={waterConsumption}
+              setFile={setWaterConsumption}
+            />
+          </BigFileUploader>
+          <BigFileUploader>
+            <Subheading>Odbiór ścieków</Subheading>
+            <BigDropzone file={sewageReception} setFile={setSewageReception} />
+          </BigFileUploader>
+        </SpaceAround>
+        <SpaceAround>
+          <SmallFileUploader>
+            <Subheading>Firmy ascenizacyjne</Subheading>
+            <BigDropzone file={companies} setFile={setCompanies} />
+          </SmallFileUploader>
+          <SmallFileUploader>
+            <Subheading>Zbiorniki</Subheading>
+            <BigDropzone file={containers} setFile={setContainers} />
+          </SmallFileUploader>
+          <SmallFileUploader>
+            <Subheading>Liczniki</Subheading>
+            <BigDropzone file={meters} setFile={setMeters} />
+          </SmallFileUploader>
+          <SmallFileUploader>
+            <Subheading>Osoby zamieszkałe</Subheading>
+            <BigDropzone file={residents} setFile={setResidents} />
+          </SmallFileUploader>
+        </SpaceAround>
+        <Button
+          onClick={() => {
+            if (!areFilesSelected) {
+              navigate('/results');
+              return;
+            }
+            upload();
+          }}
+        >
+          <span>
+            {areFilesSelected ? 'Zaimportuj dane' : 'Przejdź do strony głównej'}
+          </span>
+          <ButtonArrow />
+        </Button>
+      </ContentLayout>
     </Layout>
   );
 };

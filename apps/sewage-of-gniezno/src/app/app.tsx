@@ -14,7 +14,7 @@ const App = () => {
         <QueryClientProvider client={new QueryClient()}>
           <BrowserRouter>
             <Routes>
-              <Route path="/" element={<Upload />} />
+              <Route path="/upload" element={<Upload />} />
               <Route path="/results" element={<ResultsPage />} />
             </Routes>
           </BrowserRouter>
