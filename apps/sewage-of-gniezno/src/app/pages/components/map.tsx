@@ -21,11 +21,24 @@ const Map = ({ locations }: Props) => {
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       {locations?.data?.data ? (
-        locations.data.data.map(({ latitude, longtitude, name }: { latitude: number, longtitude: number, name: string }) => (
-          <Marker position={[latitude, longtitude]}>
-            <Popup>{name}</Popup>
-          </Marker>
-        ))
+        locations.data.data.map(
+          ({
+            latitude,
+            longtitude,
+            name,
+          }: {
+            latitude: number;
+            longtitude: number;
+            name: string;
+          }) => (
+            <Marker
+              key={`${latitude}-${longtitude}`}
+              position={[latitude, longtitude]}
+            >
+              <Popup>{name}</Popup>
+            </Marker>
+          )
+        )
       ) : (
         <Marker position={position}>
           <Popup>
