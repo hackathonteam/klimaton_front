@@ -1,11 +1,45 @@
 import axios from 'axios';
 
-const fetchGraph = async (id: string, graphName: string) => {
-  const response = await axios.get(
-    `http://localhost:8000/containers/graphs/${id}/${graphName}`
-  );
+type Response1 =
+  {
+    name: string,
+    title: string,
+    data: [{
+      date: string,
+      quotient: number
+    },
+    ]
+  };
 
-  return response.data;
+type Response2 =
+  {
+    name: string,
+    title: string,
+    data: [{
+      date: string,
+      pobrana: number,
+      deklarowana: number
+    },
+    ]
+  };
+
+const fetchQuotientGraph = async (id: string) => {
+  const response = await axios.get(
+    `http://localhost:8000/containers/graphs/${id}/quotient_timeseries`
+  );
+  const data: Response1 = response.data;
+
+  return data;
 };
 
-export default fetchGraph;
+export const fetchAmountGraph = async (id: string) => {
+  const response = await axios.get(
+    `http://localhost:8000/containers/graphs/${id}/amount_timeseries`
+  );
+  const data: Response2 = response.data;
+
+  return data;
+};
+
+
+export default fetchQuotientGraph;

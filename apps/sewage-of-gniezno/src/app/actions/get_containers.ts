@@ -1,12 +1,21 @@
 import axios from 'axios';
 
+type Response = {
+  id: string,
+  nr_zbiornika: string,
+  st_oddanej_do_pobranej: number,
+  longtitude: number,
+  latitude: number
+};
 
 const getDefaultContainers = async () => {
   const response = await axios.get(
     `http://localhost:8000/containers/default`
   );
 
-  return response.data;
+  const data: Response[] = response.data;
+
+  return data;
 };
 
 export const getAllContainers = async () => {
