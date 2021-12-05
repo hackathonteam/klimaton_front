@@ -163,6 +163,7 @@ const ResultsPage = () => {
             }))}
             search
             excludeHeaders={['longtitude', 'latitude']}
+            perPage={10}
           />
         )}
       </Flex>

@@ -54,15 +54,13 @@ const ProgressBar = ({ value, name, selected, popup = false }: Props) => {
     max: [number, number, number, number];
   } = { value: [15, 0, 0, 15], max: [0, 15, 15, 0] };
 
-  console.log({ value, name, selected, popup, data });
-
   // hacky way to fix animation bugs
   const [time, setTime] = useState<boolean>(false);
   setTimeout(() => {
     setTime(true);
   }, Math.random() * 200 + 100);
 
-  if (!value || !time) {
+  if ((!value && selected) || !time) {
     return null;
   }
 
