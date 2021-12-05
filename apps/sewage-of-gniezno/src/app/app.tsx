@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { StylesProvider } from '@mui/styles';
 import { ThemeProvider } from 'styled-components';
 import ResultsPage from './pages/results';
+import TrucksPage from './pages/trucks';
 
 const App = () => {
   return (
@@ -14,8 +15,9 @@ const App = () => {
         <QueryClientProvider client={new QueryClient()}>
           <BrowserRouter>
             <Routes>
-              <Route path="/" element={<Upload />} />
+              <Route path="/upload" element={<Upload />} />
               <Route path="/results" element={<ResultsPage />} />
+              <Route path="/trucks" element={<TrucksPage />} />
             </Routes>
           </BrowserRouter>
           <ToastContainer style={{ fontSize: '16px' }} />

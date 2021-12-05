@@ -1,51 +1,75 @@
 import styled from 'styled-components';
 import { LatLngTuple } from 'leaflet';
-import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
+import {
+  CircleMarker,
+  MapContainer,
+  Marker,
+  Popup,
+  TileLayer,
+} from 'react-leaflet';
+import ProgressBar from './progress_bar';
 
 const StyledMap = styled(MapContainer)`
   height: 100%;
-  width: 50%;
+  width: calc(50% - 100px);
+`;
+
+const StyledMarked = styled(Marker)``;
+
+const Title = styled.h1`
+  font-size: 24px;
 `;
 
 const position: LatLngTuple = [52.53481, 17.58259];
 
 type Props = {
-  locations?: any; // TEMP
+  setSelectedLocation: (location: {
+    name: string;
+    longtitude: number;
+    latitude: number;
+  }) => void;
+  containers?: any; // TEMP
 };
 
-const Map = ({ locations }: Props) => {
+const Map = ({ setSelectedLocation, containers }: Props) => {
   return (
     <StyledMap center={position} zoom={13}>
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      {locations?.data?.data ? (
-        locations.data.data.map(
+      {containers &&
+        containers.length &&
+        containers.map(
           ({
             latitude,
             longtitude,
-            name,
+            id: name,
+            st_oddanej_do_pobranej: ratio,
           }: {
             latitude: number;
             longtitude: number;
-            name: string;
+            id: string;
+            st_oddanej_do_pobranej: number;
           }) => (
-            <Marker
-              key={`${latitude}-${longtitude}`}
-              position={[latitude, longtitude]}
+            <CircleMarker
+              radius={8}
+              weight={3}
+              color={ratio < 0.5 ? 'red' : 'blue'}
+              key={`${latitude}-${longtitude}-${name}`}
+              center={[latitude, longtitude]}
+              eventHandlers={{
+                click: () =>
+                  setSelectedLocation({ name, latitude, longtitude }),
+              }}
             >
-              <Popup>{name}</Popup>
-            </Marker>
+              <Popup>
+                <Title>ul. {name}, Gniezno</Title>
+                <ProgressBar value={100 * ratio} popup />
+              </Popup>
+            </CircleMarker>
           )
-        )
-      ) : (
-        <Marker position={position}>
-          <Popup>
-            A pretty CSS3 popup. <br /> Easily customizable.
-          </Popup>
-        </Marker>
-      )}
+        )}
     </StyledMap>
   );
 };
