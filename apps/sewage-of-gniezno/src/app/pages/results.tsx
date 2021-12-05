@@ -15,6 +15,7 @@ import getDefaultContainers, {
 } from '../actions/get_containers';
 import { Close } from '@mui/icons-material';
 import fetchQuotientGraph from '../actions/get_graph';
+import DataTable from './components/table/dataTable';
 
 const Layout = styled.div`
   display: flex;
@@ -52,8 +53,7 @@ const CloseButton = styled(Close)`
 `;
 
 export type CaseState =
-  | 'Wszystko w porządku'
-  | 'Wymaga uwagi'
+  | 'Nie weryfikowano'
   | 'Rozpoczęto weryfikację'
   | 'Zweryfikowano pozytywnie'
   | 'Zweryfikowano negatywnie';
@@ -67,7 +67,7 @@ const ResultsPage = () => {
     latitude: number;
   } | null>(null);
 
-  const [caseState, setCaseState] = useState<CaseState>('Wszystko w porządku');
+  const [caseState, setCaseState] = useState<CaseState>('Nie weryfikowano');
 
   useEffect(() => {
     if (state?.imported) toast.success('Pomyślnie zaimportowano plik(i)');
@@ -75,13 +75,8 @@ const ResultsPage = () => {
 
   const { data: amountData } = useQuery(
     ['get-graph-amount', selectedLocation],
-    () =>
-      toast.promise(fetchAmountGraph(selectedLocation?.name as string), {
-        pending: `Pobieranie danych dla ${selectedLocation?.name}...`,
-        success: 'Znów się udało 💪',
-        error: 'Wystąpił błąd 😭',
-      }),
-    { enabled: !!selectedLocation }
+    () => fetchAmountGraph(selectedLocation?.name as string),
+    { enabled: !!selectedLocation, refetchOnWindowFocus: false }
   );
 
   const { data: quotientData } = useQuery(
@@ -92,15 +87,18 @@ const ResultsPage = () => {
         success: 'Znów się udało 💪',
         error: 'Wystąpił błąd 😭',
       }),
-    { enabled: !!selectedLocation }
+    { enabled: !!selectedLocation, refetchOnWindowFocus: false }
   );
 
-  const { data: containers } = useQuery('get-containers', () =>
-    toast.promise(getDefaultContainers, {
-      pending: 'Pobieranie danych...',
-      success: 'Pomyślnie pobrano dane! 🤩',
-      error: 'Wystąpił nieoczekiwany błąd',
-    })
+  const { data: containers } = useQuery(
+    'get-containers',
+    () =>
+      toast.promise(getDefaultContainers, {
+        pending: 'Pobieranie danych...',
+        success: 'Pomyślnie pobrano dane! 🤩',
+        error: 'Wystąpił nieoczekiwany błąd',
+      }),
+    { refetchOnWindowFocus: false }
   );
 
   return (
@@ -126,14 +124,7 @@ const ResultsPage = () => {
             <RadioControl
               setCaseState={setCaseState}
               caseState={caseState}
-              value="Wszystko w porządku"
-              color="primary"
-            />
-            <RadioControl
-              setCaseState={setCaseState}
-              caseState={caseState}
-              value="Wymaga uwagi"
-              color="warning"
+              value="Nie weryfikowano"
             />
             <RadioControl
               setCaseState={setCaseState}
@@ -162,6 +153,18 @@ const ResultsPage = () => {
         />
         {amountData && <HBar data={amountData} />}
         {quotientData && <HBar data={quotientData} quotient />}
+        {!selectedLocation && (
+          <DataTable
+            data={containers?.map((props) => ({
+              ...props,
+              st_oddanej_do_pobranej: (
+                props.st_oddanej_do_pobranej * 100
+              ).toFixed(2),
+            }))}
+            search
+            excludeHeaders={['longtitude', 'latitude']}
+          />
+        )}
       </Flex>
     </Layout>
   );

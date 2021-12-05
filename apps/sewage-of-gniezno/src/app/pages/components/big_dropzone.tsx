@@ -14,7 +14,7 @@ const DropzoneArea = styled.div`
   border-radius: 15px;
   color: gray;
   cursor: pointer;
-  padding: 32px;
+  padding: 16px 32px;
   background-color: rgba(0, 0, 0, 0.05);
   &:hover {
     background-color: rgba(0, 0, 0, 0.2);
