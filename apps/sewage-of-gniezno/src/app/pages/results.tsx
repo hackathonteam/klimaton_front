@@ -14,6 +14,7 @@ import getDefaultContainers, {
   getLowerThanContainers,
 } from '../actions/get_containers';
 import { Close } from '@mui/icons-material';
+import fetchQuotientGraph from '../actions/get_graph';
 
 const Layout = styled.div`
   display: flex;
@@ -60,7 +61,6 @@ export type CaseState =
 const ResultsPage = () => {
   const { state } = useLocation();
 
-  const [locations, setLocations] = useState<any>(null);
   const [selectedLocation, setSelectedLocation] = useState<{
     name: string;
     longtitude: number;
@@ -73,11 +73,27 @@ const ResultsPage = () => {
     if (state?.imported) toast.success('Pomyślnie zaimportowano plik(i)');
   }, [state]);
 
-  const { data } = useQuery(['get-graph', locations], () =>
-    fetchAmountGraph(locations?.length ? locations[0].name : 'Roosevelta%20139')
+  const { data: amountData } = useQuery(
+    ['get-graph-amount', selectedLocation],
+    () =>
+      toast.promise(fetchAmountGraph(selectedLocation?.name as string), {
+        pending: `Pobieranie danych dla ${selectedLocation?.name}...`,
+        success: 'Znów się udało 💪',
+        error: 'Wystąpił błąd 😭',
+      }),
+    { enabled: !!selectedLocation }
   );
 
-  console.log({ data });
+  const { data: quotientData } = useQuery(
+    ['get-graph-quotient', selectedLocation],
+    () =>
+      toast.promise(fetchQuotientGraph(selectedLocation?.name as string), {
+        pending: `Pobieranie danych dla ${selectedLocation?.name}...`,
+        success: 'Znów się udało 💪',
+        error: 'Wystąpił błąd 😭',
+      }),
+    { enabled: !!selectedLocation }
+  );
 
   const { data: containers } = useQuery('get-containers', () =>
     toast.promise(getDefaultContainers, {
@@ -86,16 +102,6 @@ const ResultsPage = () => {
       error: 'Wystąpił nieoczekiwany błąd',
     })
   );
-
-  console.log({
-    selectedLocation,
-    containers,
-    result:
-      selectedLocation &&
-      containers &&
-      containers.filter(({ id }: any) => id === selectedLocation.name)[0]
-        .st_oddanej_do_pobranej,
-  });
 
   return (
     <Layout>
@@ -151,22 +157,11 @@ const ResultsPage = () => {
         )}
         <ProgressBar
           selected={!!selectedLocation}
-          name={
-            containers && selectedLocation
-              ? containers.filter(
-                  ({ id }: any) => id === selectedLocation.name
-                )[0].id
-              : 'Miejsce'
-          }
-          value={
-            containers && selectedLocation
-              ? containers.filter(
-                  ({ id }: any) => id === selectedLocation.name
-                )[0].st_oddanej_do_pobranej * 100
-              : 59
-          }
+          name={selectedLocation?.name}
+          value={quotientData && quotientData.data[0].quotient * 100}
         />
-        {data && <HBar data={data} />}
+        {amountData && <HBar data={amountData} />}
+        {quotientData && <HBar data={quotientData} quotient />}
       </Flex>
     </Layout>
   );

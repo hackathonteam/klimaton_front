@@ -1,36 +1,27 @@
 import axios from 'axios';
 
-type Response1 =
-  {
-    name: string,
-    title: string,
-    data: [{
-      date: string,
-      quotient: number
-    },
-    ]
-  };
+type Response1 = {
+  name: string;
+  title: string;
+  data: {
+    date: string;
+    quotient: number;
+  }[];
+};
 
-type Response2 =
-  {
-    name: string,
-    title: string,
-    data: [{
-      date: string,
-      pobrana: number,
-      deklarowana: number
-    },
-    ]
-  };
+type Response2 = {
+  name: string;
+  title: string;
+  data: {
+    date: string;
+    pobrana: number;
+    deklarowana: number;
+  }[];
+};
 
 const fetchQuotientGraph = async (id: string) => {
-  const response = await axios.post(
-    `http://localhost:8000/containers/graphs`
-    , {id: id, graph_name: 'quotient_timeseries'}, {
-    headers: {
-        'content-type': 'text/json'
-      }
-    }
+  const response = await axios.get(
+    `http://localhost:8000/containers/graphs/${id}/quotient_timeseries`
   );
   const data: Response1 = response.data;
 
@@ -38,19 +29,13 @@ const fetchQuotientGraph = async (id: string) => {
 };
 
 export const fetchAmountGraph = async (id: string) => {
-  const response = await axios.post(
-    `http://localhost:8000/containers/graphs`
-    , {id: id, graph_name: 'amount_timeseries'}, {
-    headers: {
-        'content-type': 'text/json'
-      }
-    }
+  const response = await axios.get(
+    `http://localhost:8000/containers/graphs/${id}/amount_timeseries`
   );
 
   const data: Response2 = response.data;
 
   return data;
 };
-
 
 export default fetchQuotientGraph;
