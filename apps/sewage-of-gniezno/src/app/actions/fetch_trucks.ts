@@ -7,7 +7,7 @@ type Response = {
   declaredSewage: number,
   realSewage: number,
   difference: number,
-  id: string
+  hour: string
 };
 
 const fetchAllTrucks = async (): Promise<Response[]> => {

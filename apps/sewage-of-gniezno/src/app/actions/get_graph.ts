@@ -24,8 +24,13 @@ type Response2 =
   };
 
 const fetchQuotientGraph = async (id: string) => {
-  const response = await axios.get(
-    `http://localhost:8000/containers/graphs/${id}/quotient_timeseries`
+  const response = await axios.post(
+    `http://localhost:8000/containers/graphs`
+    , {id: id, graph_name: 'quotient_timeseries'}, {
+    headers: {
+        'content-type': 'text/json'
+      }
+    }
   );
   const data: Response1 = response.data;
 
@@ -33,9 +38,15 @@ const fetchQuotientGraph = async (id: string) => {
 };
 
 export const fetchAmountGraph = async (id: string) => {
-  const response = await axios.get(
-    `http://localhost:8000/containers/graphs/${id}/amount_timeseries`
+  const response = await axios.post(
+    `http://localhost:8000/containers/graphs`
+    , {id: id, graph_name: 'amount_timeseries'}, {
+    headers: {
+        'content-type': 'text/json'
+      }
+    }
   );
+
   const data: Response2 = response.data;
 
   return data;
