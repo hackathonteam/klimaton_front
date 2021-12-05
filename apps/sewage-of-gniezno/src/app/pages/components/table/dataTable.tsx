@@ -1,12 +1,10 @@
 import React, { ReactNode, useState } from 'react';
-import {
-  Table,
-  TableCell,
-  TableHeaderCell,
-  TableHeaderRow,
-  TableRow,
-} from './index';
 import Pagination from './components/pagination';
+import Table from './components/table';
+import TableCell from './components/tableCell';
+import TableHeaderCell from './components/tableHeaderCell';
+import TableHeaderRow from './components/tableHeaderRow';
+import TableRow from './components/tableRow';
 
 type Props = {
   data?: Record<string, ReactNode>[];
@@ -67,7 +65,7 @@ export const DataTable = ({
       </TableHeaderRow>
       <tbody>
         {content.map((record, key) => (
-          <TableRow key={key}>
+          <TableRow key={key} warning={record?.difference && record.difference > 0.5 ? 'yes' : null}>
             {counter ? (
               <TableCell>{page * rowsPerPage + key + 1}</TableCell>
             ) : null}

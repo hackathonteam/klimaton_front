@@ -5,9 +5,10 @@ type Align = 'left' | 'center' | 'right' | 'justify' | 'char' | undefined;
 
 const StyledHeaderCell = styled.th<{ align: Align }>`
   padding: 0 20px;
-  color: ${({ theme }) => theme.colors.gray100};
-  font: ${({ theme }) => theme.fonts.tableHeader};
+  color: #f8f9fa;
   text-align: ${({ align }) => align};
+  font-size: 18px;
+  line-height: 40px;
 `;
 
 type Props = {

@@ -28,15 +28,14 @@ type Props = {
 };
 
 const Map = ({ setSelectedLocation, containers }: Props) => {
-  console.log(containers);
-
   return (
     <StyledMap center={position} zoom={13}>
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      {containers && containers.length ? (
+      {containers &&
+        containers.length &&
         containers.map(
           ({
             latitude,
@@ -66,19 +65,7 @@ const Map = ({ setSelectedLocation, containers }: Props) => {
               </Popup>
             </CircleMarker>
           )
-        )
-      ) : (
-        <CircleMarker
-          radius={8}
-          weight={3}
-          center={position}
-          eventHandlers={{ click: () => console.log('Clicked') }}
-        >
-          <Popup>
-            A pretty CSS3 popup. <br /> Easily customizable.
-          </Popup>
-        </CircleMarker>
-      )}
+        )}
     </StyledMap>
   );
 };

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import SearchInput from './searchInput';
 
 const StyledRow = styled.tr`
-  background-color: ${({ theme }) => theme.colors.gray700};
+  background-color: #495057;
 `;
 
 type Props = {

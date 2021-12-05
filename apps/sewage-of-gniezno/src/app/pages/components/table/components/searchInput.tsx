@@ -1,12 +1,13 @@
-import React from 'react';
 import styled from 'styled-components';
 import { Input } from '@mui/material';
 
 const StyledInput = styled(Input)`
-  caret-color: ${({ theme }) => theme.colors.gray100};
+  caret-color: #f8f9fa;
   input {
-    color: ${({ theme }) => theme.colors.gray100};
-    border-bottom: 1px solid ${({ theme }) => theme.colors.gray100};
+    color: #f8f9fa;
+    border-bottom: 1px solid #f8f9fa;
+    font-size: 18px;
+    line-height: 40px;c
   }
 `;
 

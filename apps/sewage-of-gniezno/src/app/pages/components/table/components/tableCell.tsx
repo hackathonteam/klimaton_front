@@ -5,10 +5,10 @@ type Align = 'left' | 'center' | 'right' | 'justify' | 'char' | undefined;
 
 const Cell = styled.td<{ align: Align; error: boolean }>`
   padding: 0 20px;
-  color: ${({ theme, error }) =>
-    error ? theme.colors.errorPrimary : theme.colors.gray900};
-  font: ${({ theme }) => theme.fonts.tableRow};
+  color: ${({ error }) => (error ? 'red' : '#212529')};
   text-align: ${({ align }) => align};
+  font-size: 18px;
+  line-height: 40px;
 `;
 
 type Props = {

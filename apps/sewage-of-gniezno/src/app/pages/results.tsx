@@ -9,7 +9,10 @@ import Navbar from './components/navbar_vert';
 import { useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import RadioControl from './components/radio_control';
-import getDefaultContainers, { getAllContainers, getLowerThanContainers } from '../actions/get_containers';
+import getDefaultContainers, {
+  getAllContainers,
+  getLowerThanContainers,
+} from '../actions/get_containers';
 import { Close } from '@mui/icons-material';
 
 const Layout = styled.div`
@@ -70,10 +73,6 @@ const ResultsPage = () => {
     if (state?.imported) toast.success('Pomyślnie zaimportowano plik(i)');
   }, [state]);
 
-  // useEffect(() => {
-  //   (async () => setLocations(await fetchLocation()))();
-  // }, []);
-
   const { data } = useQuery(['get-graph', locations], () =>
     getGraph(
       locations?.length ? locations[0].name : 'Roosevelta%20139',
@@ -81,7 +80,13 @@ const ResultsPage = () => {
     )
   );
 
-  const { data: containers } = useQuery('get-containers', () => getLowerThanContainers(1));
+  const { data: containers } = useQuery('get-containers', () =>
+    toast.promise(getDefaultContainers, {
+      pending: 'Pobieranie danych...',
+      success: 'Pomyślnie pobrano dane! 🤩',
+      error: 'Wystąpił nieoczekiwany błąd',
+    })
+  );
 
   console.log({
     selectedLocation,
