@@ -23,7 +23,11 @@ const Title = styled.h1`
 const position: LatLngTuple = [52.53481, 17.58259];
 
 type Props = {
-  setSelectedLocation: (location: any) => void;
+  setSelectedLocation: (location: {
+    name: string;
+    longtitude: number;
+    latitude: number;
+  }) => void;
   containers?: any; // TEMP
 };
 

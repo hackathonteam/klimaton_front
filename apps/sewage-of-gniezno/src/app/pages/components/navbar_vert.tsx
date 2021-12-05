@@ -1,11 +1,18 @@
 import styled from 'styled-components';
-import { LocalShipping, Publish, Home } from '@mui/icons-material';
+import { LocalShipping, Publish, Home, ExitToApp } from '@mui/icons-material';
 import { useNavigate, useLocation } from 'react-router';
+
+const SpaceBetween = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: space-between;
+  background-color: #6377c6;
+`;
 
 const FlexV = styled.nav`
   width: 100px;
   height: 100%;
-  background-color: #6377c6;
 `;
 
 const Button = styled.div<{ selected: boolean }>`
@@ -50,36 +57,52 @@ const ImportIcon = styled(Publish)`
   }
 `;
 
+const LogoutIcon = styled(ExitToApp)`
+  && {
+    font-size: 24px;
+    transform: rotate(180deg);
+  }
+`;
+
 const LowerText = styled.p``;
 
 const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
   return (
-    <FlexV>
-      <Button
-        onClick={() => navigate('/results')}
-        selected={location.pathname === '/results'}
-      >
-        <HomeIcon />
-        <LowerText>Strona Główna</LowerText>
-      </Button>
-      <Button
-        onClick={() => navigate('/trucks')}
-        selected={location.pathname === '/trucks'}
-      >
-        <LocalShippingIcon />
-        <LowerText>Firmy</LowerText>
-      </Button>
+    <SpaceBetween>
+      <FlexV>
+        <Button
+          onClick={() => navigate('/results')}
+          selected={location.pathname === '/results'}
+        >
+          <HomeIcon />
+          <LowerText>Strona Główna</LowerText>
+        </Button>
+        <Button
+          onClick={() => navigate('/trucks')}
+          selected={location.pathname === '/trucks'}
+        >
+          <LocalShippingIcon />
+          <LowerText>Firmy</LowerText>
+        </Button>
 
+        <Button
+          onClick={() => navigate('/upload')}
+          selected={location.pathname === '/upload'}
+        >
+          <ImportIcon />
+          <LowerText>Import</LowerText>
+        </Button>
+      </FlexV>
       <Button
-        onClick={() => navigate('/upload')}
-        selected={location.pathname === '/upload'}
+        onClick={() => navigate('/')}
+        selected={location.pathname === '/'}
       >
-        <ImportIcon />
-        <LowerText>Import</LowerText>
+        <LogoutIcon />
+        <LowerText>Wyloguj</LowerText>
       </Button>
-    </FlexV>
+    </SpaceBetween>
   );
 };
 

@@ -3,7 +3,7 @@ import { useQuery } from 'react-query';
 import styled from 'styled-components';
 import Map from './components/map';
 import ProgressBar from './components/progress_bar';
-import getGraph from '../actions/get_graph';
+import getGraph, { fetchAmountGraph } from '../actions/get_graph';
 import HBar from './components/hbar';
 import Navbar from './components/navbar_vert';
 import { useLocation } from 'react-router-dom';
@@ -74,11 +74,10 @@ const ResultsPage = () => {
   }, [state]);
 
   const { data } = useQuery(['get-graph', locations], () =>
-    getGraph(
-      locations?.length ? locations[0].name : 'Roosevelta%20139',
-      'graph_name'
-    )
+    fetchAmountGraph(locations?.length ? locations[0].name : 'Roosevelta%20139')
   );
+
+  console.log({ data });
 
   const { data: containers } = useQuery('get-containers', () =>
     toast.promise(getDefaultContainers, {

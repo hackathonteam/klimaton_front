@@ -10,10 +10,10 @@ type Response = {
   id: string
 };
 
-const fetchAllTrucks = async (): Promise<Response> => {
+const fetchAllTrucks = async (): Promise<Response[]> => {
   const response = await axios.get(`http://localhost:8000/trucks`);
 
-  const data: Response = response.data;
+  const data: Response[] = response.data;
 
   return data;
 };
