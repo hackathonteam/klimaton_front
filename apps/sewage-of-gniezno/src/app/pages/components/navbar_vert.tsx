@@ -52,7 +52,7 @@ const ImportIcon = styled(Publish)`
 
 const LowerText = styled.p``;
 
-const NavBarV = () => {
+const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
   return (
@@ -61,7 +61,7 @@ const NavBarV = () => {
         onClick={() => navigate('/results')}
         selected={location.pathname === '/results'}
       >
-        <Home />
+        <HomeIcon />
         <LowerText>Strona Główna</LowerText>
       </Button>
       <Button
@@ -83,4 +83,4 @@ const NavBarV = () => {
   );
 };
 
-export default NavBarV;
+export default Navbar;
